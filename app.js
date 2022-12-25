@@ -38,7 +38,7 @@ passport.use(new GoogleStrategy({
   }
 ));
 
-mongoose.connect("mongodb://localhost:27017/userDB");
+mongoose.connect("mongodb+srv://anuj:123@cluster0.zbs9t.mongodb.net/BlogDB");
 //mongoose.set("useCreateIndex",true);
 const userSchema=new mongoose.Schema({
     email: String,
