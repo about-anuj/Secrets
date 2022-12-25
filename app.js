@@ -9,6 +9,7 @@ const passport= require('passport');
 const passportLocalMongoose=require('passport-local-mongoose');
 const findOrCreate = require('mongoose-findorcreate')
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const HTTP_PORT = process.env.PORT || 3000;
 const app=express();
 
 app.use(express.static('public'));
@@ -180,6 +181,6 @@ app.post("/submit",function(req,res){
     }
   })
 });
-app.listen(3000,function(){
+app.listen(HTTP_PORT,function(){
     console.log("server is running on 3000 ");
 });
