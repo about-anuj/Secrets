@@ -31,7 +31,7 @@ passport.use(new GoogleStrategy({
   },
   function(accessToken, refreshToken, profile, cb) {
    // console.log(profile);
-    User.findOrCreate({ googleId: profile.id }, function (err, user) {
+    User.findOrCreate({ username: profile.emails[0].value, googleId: profile.id }, function (err, user) {
       return cb(err, user);
     });
   }
@@ -61,36 +61,31 @@ passport.deserializeUser(function(user, done) {
 });
 //call back functions for authentication
 app.get('/auth/google',
-  passport.authenticate('google', { scope: ['profile'] })
+  passport.authenticate('google', { scope: ['profile',"email"] })
   );
 
 app.get('/auth/google/secrets', 
-  passport.authenticate('google', { failureRedirect: '/login' }),
+  passport.authenticate('google', { failureRedirect: '/' }),
   function(req, res) {
     // Successful authentication, redirect home.
     res.redirect('/secrets');
   });
 
 app.get("/",function(req,res){
-    res.render("home");
-});
-
-
-app.get("/login",function(req,res){
   if(req.isAuthenticated())
    {
     res.render("secrets");
    }
   else
    {
-    res.render("login",{passNotMatch:""});
+    res.render("home",{passNotMatch:""});
    }
     
 });
 
 app.get("/register",function(req,res){
 
-    res.render("register");
+    res.render("register",{passNotMatch:""});
 });
 
 app.get("/secrets",function(req,res){
@@ -117,7 +112,7 @@ app.get("/submit",function(req,res){
     }
     else
     {
-        res.redirect("/login");
+        res.redirect("/");
     }
 });
 
@@ -132,7 +127,7 @@ app.post("/register", function(req, res){
     req.body.password, function (err, user) {      
       if (err) {
         // if some error is occurring, log that error
-        res.render("login",{passNotMatch:err.message});
+        res.render("register",{passNotMatch:err.message});
       }
       else {
         passport.authenticate("local")(req, res, function() {
@@ -143,22 +138,25 @@ app.post("/register", function(req, res){
     });
   });
 
-app.post("/login",function(req,res){
+app.post("/",function(req,res){
 
-   
+  
     const user=new User({
       email:req.body.username,
       password:req.body.password
     });
-
+    
     req.login(user, function(err) {
+      
+      res.status(401).render("home",{passNotMatch:"Wrong Credentials/Unauthorized Error:"+res.statusCode});
+     
       if(err) {
         console.log("there might be wrong pass used");
-        res.send(err.message);
+        res.redirect("/");
       }
       else{
         passport.authenticate("local")(req, res, function() {
-          console.log("redirected to secrets after register");
+          // console.log("redirected to secrets after register");
              res.redirect("/secrets"); 
       })
       }
@@ -182,6 +180,6 @@ app.post("/submit",function(req,res){
     }
   })
 });
-app.listen(5000,function(){
+app.listen(3000,function(){
     console.log("server is running on 3000 ");
 });

@@ -13,4 +13,50 @@ body {
   font-size: 2rem;
   color: #fff;
   background-color: #000;
+  margin: 2%;
+}
+
+#home-img span{
+  font-style: italic;
+  font-size: 1rem;
+}
+#home-img img{
+  float: right;
+  height: auto;
+  width: 100%;
+}
+.g-login span{
+  color: red;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 1.2rem;
+}
+.fa-google{
+  color: red;
+}
+.form{
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.center{
+  text-align: center;
+  display: inline-block;
+  padding: 2%;
+}
+.centerDiv{
+  text-align: center;
+}
+.card{
+  border-radius: 2%;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px; 
+  margin: 1%;
+}
+hr {
+  border: 0;
+  clear:both;
+  display:block;           
+  background-color:#c8c8c6;
+  height: 1.5px;
+}
+.form-group label{
+  float: left;
 }

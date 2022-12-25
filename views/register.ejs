@@ -1,41 +1,46 @@
 <%- include('partials/header') %>
 <div class="container mt-5">
-  <h1>Register</h1>
+  <h1 class="centerDiv">Secrets</h1>
 
-  <div class="row">
-    <div class="col-sm-8">
+  <div class="row ">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
       <div class="card">
         <div class="card-body">
 
           <!-- Makes POST request to /register route -->
           <form action="/register" method="POST">
             <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" class="form-control" name="username">
+              <h4>Register</h4>
+              <p style="color: red;" ><%= passNotMatch %></p>
+              <label for="email">Enter your email</label>
+              <input type="email" class="form-control" name="username" placeholder="email">
             </div>
             <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" class="form-control" name="password">
+
+              <label for="password">Enter your password</label>
+              <input type="password" class="form-control" name="password" placeholder="password">
             </div>
             <button type="submit" class="btn btn-dark">Register</button>
           </form>
 
         </div>
-      </div>
-    </div>
-
-    <div class="col-sm-4">
-      <div class="card social-block">
-        <div class="card-body">
-          <a class="btn btn-block btn-social btn-google" href="/auth/google" role="button">
-            <i class="fab fa-google"></i>
+       
+       <hr>
+       <div class="g-login text-center">
+        <div class="center">
+        <a class="btn btn-block btn-social" href="/auth/google" role="button">
+           <i class="fab fa-google"></i>
             Sign Up with Google
-          </a>
+        </a>
         </div>
-      </div>
+       </div>
     </div>
+  </div>
+    <div class="col-sm-4"></div>
+   
 
   </div>
 </div>
 
-<%- include('partials/header') %>
+<%- include('partials/footer') %>
