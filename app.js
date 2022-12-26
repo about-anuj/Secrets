@@ -27,7 +27,7 @@ app.use(passport.session());
 passport.use(new GoogleStrategy({
     clientID: '694980978146-gq4856je31d8mkd9foaoks23g1pu928h.apps.googleusercontent.com',
     clientSecret: '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',
-    callbackURL: "https://secrets2023.cyclic.app/auth/google/secrets"
+    callbackURL: "https://secrets2023.cyclic.app/auth/google/secrets",
   },
   function(accessToken, refreshToken, profile, cb) {
    // console.log(profile);
@@ -37,7 +37,7 @@ passport.use(new GoogleStrategy({
   }
 ));
 
-mongoose.connect("mongodb+srv://anuj:123@cluster0.zbs9t.mongodb.net/BlogDB");
+mongoose.connect("mongodb+srv://anuj:anuj@cluster0.y5bw4.mongodb.net/secrets");
 //mongoose.set("useCreateIndex",true);
 const userSchema=new mongoose.Schema({
     email: String,
@@ -152,7 +152,7 @@ app.post("/",function(req,res){
      
       if(err) {
         console.log("there might be wrong pass used");
-        res.redirect("/");
+        return  res.redirect("/");
       }
       else{
         passport.authenticate("local")(req, res, function() {
