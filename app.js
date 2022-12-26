@@ -24,27 +24,17 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+mongoose.connect("mongodb+srv://anuj:Anuj2019@cluster0.y5bw4.mongodb.net/secretdb", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
-passport.use(new GoogleStrategy({
-    clientID: '694980978146-gq4856je31d8mkd9foaoks23g1pu928h.apps.googleusercontent.com',
-    clientSecret: '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',
-    callbackURL: "https://secrets2023.cyclic.app/auth/google/"
-  },
-  function(accessToken, refreshToken, profile, cb) {
-   // console.log(profile);
-    User.findOrCreate({ username: profile.emails[0].value, googleId: profile.id }, function (err, user) {
-      return cb(err, user);
-    });
-  }
-));
-
-mongoose.connect("mongodb+srv://anuj:Anuj2019@cluster0.y5bw4.mongodb.net/secretdb");
-//mongoose.set("useCreateIndex",true);
+// mongoose.set("useCreateIndex",true);
 const userSchema=new mongoose.Schema({
     email: String,
     password : String,
     googleId:String,
-    secret:String
+    secret:[],
 });
 
 userSchema.plugin(passportLocalMongoose);
@@ -54,12 +44,27 @@ const User=new mongoose.model("User",userSchema);
 passport.use(User.createStrategy());
 
 passport.serializeUser(function(user, done) {
-  done(null, user);
+  done(null, user.id);
 });
 
-passport.deserializeUser(function(user, done) {
-  done(null, user);
+passport.deserializeUser(function(id, done) {
+  user.findById(id,function(err,user){
+  done(err,user);
+  });
 });
+passport.use(new GoogleStrategy({
+  clientID: '694980978146-gq4856je31d8mkd9foaoks23g1pu928h.apps.googleusercontent.com',
+  clientSecret: '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',
+  callbackURL: "https://secrets2023.cyclic.app/auth/google/secrets",
+  userProfileURL: 'https://www.googleapis.com/oauth2/v3/userinfo',
+},
+function(accessToken, refreshToken, profile, cb) {
+ console.log(profile);
+  User.findOrCreate({ username: profile.emails[0].value, googleId: profile.id }, function (err, user) {
+    return cb(err, user);
+  });
+}
+));
 //call back functions for authentication
 app.get('/auth/google',
   passport.authenticate('google', { scope: ['profile',"email"] })
