@@ -1,6 +1,6 @@
 # Secrets
 • Secrets app is used to commit secrets anonymously and share them worldwide. Each user can post a single secret upon registration and login.
-• Technology used are NodeJs, Ejs, Express, Express-session (Managing sessions), Passport.js (Authentication system), Mongoose (MongoDB middleware)
+ • Technology used are NodeJs, Ejs, Express, Express-session (Managing sessions), Passport.js (Authentication system), Mongoose (MongoDB middleware)
 
 ## Setup Instruction for local enviornment.
 1. Download the zip file.
